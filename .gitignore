@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# EEG / raw dataset files
+*.xdf
+*.eeg
+*.vhdr
+*.vmrk
+*.edf
+*.bdf
+*.fif
+
+# Raw / downloaded data
+data/
+sourcedata/
+raw/
