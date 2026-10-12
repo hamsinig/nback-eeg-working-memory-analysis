@@ -23,15 +23,16 @@ This project uses the **Cognitive Workload 5-level n-back** dataset from OpenNeu
 | Participants analyzed | 18 |
 | EEG channels | 19 |
 | Sampling frequency | 250 Hz |
-| Conditions | 1-back, 2-back, 3-back, 4-back |
+| Task | 1-back, 2-back, 3-back, 4-back |
 
 The dataset was accessed using DataLad and analyzed locally.
 
-**Dataset:** https://openneuro.org/datasets/ds007169
+**Dataset source:**  
+https://openneuro.org/datasets/ds007169
 
 ---
 
-## Analysis Pipeline
+# Analysis Pipeline
 
 ```text
 Raw EEG
@@ -91,12 +92,14 @@ Filtering was treated as preprocessing rather than artifact removal.
 
 Independent Component Analysis (ICA) was used to identify components likely to contain ocular artifacts.
 
-### ICA configuration
+### ICA Configuration
 
-- **Method:** FastICA
-- **Components:** 19
-- **Random state:** 42
-- **Decimation:** Applied during ICA fitting
+| Parameter | Setting |
+|---|---|
+| Method | FastICA |
+| Number of components | 19 |
+| Random state | 42 |
+| Decimation | Applied during ICA fitting |
 
 The dataset did not provide a dedicated EOG channel for the analysis. Therefore, frontal EEG channels **Fp1 and Fp2** were used as supporting indicators when evaluating candidate ocular components.
 
@@ -121,7 +124,7 @@ Each experimental trial was epoched from:
 
 relative to event onset.
 
-The baseline interval was −0.2 to 0 s.
+The baseline interval was **−0.2 s to 0 s**.
 
 The primary spectral analysis used the **0–1 s task period**.
 
@@ -158,7 +161,7 @@ After artifact rejection:
 
 Power spectral density (PSD) was estimated using **Welch's method**.
 
-### PSD parameters
+## PSD Parameters
 
 | Parameter | Value |
 |---|---:|
@@ -182,9 +185,7 @@ These bands were used as descriptive frequency ranges rather than one-to-one ind
 
 Condition power was represented using a log-ratio relative to the 1-back condition:
 
-\[
-\log\left(\frac{\text{condition power}}{\text{1-back power}}\right)
-\]
+**Log-ratio = log(condition power / 1-back power)**
 
 Interpretation:
 
@@ -205,11 +206,13 @@ Interpretation:
 | 3-back | 73.9% |
 | 4-back | 69.6% |
 
-### Friedman test
+### Friedman Test
 
-- **Statistic:** 48.1844
-- **p < 0.001**
-- **Kendall's W:** 0.8923
+| Statistic | Value |
+|---|---:|
+| Statistic | 48.1844 |
+| p-value | < 0.001 |
+| Kendall's W | 0.8923 |
 
 Accuracy did not decrease monotonically with N-back level. It increased from 1-back through 3-back and then decreased at 4-back.
 
@@ -226,11 +229,11 @@ Accuracy did not decrease monotonically with N-back level. It increased from 1-b
 | 3-back | −0.0054 |
 | 4-back | +0.0107 |
 
-### Repeated-measures ANOVA
+### Repeated-Measures ANOVA
 
 **F(3,51) = 0.3235, p = 0.8083**
 
-### Friedman test
+### Friedman Test
 
 **χ² = 0.6000, p = 0.8964**
 
@@ -249,11 +252,11 @@ There was no evidence of a significant overall theta condition effect.
 | 3-back | −0.0642 |
 | 4-back | +0.0362 |
 
-### Repeated-measures ANOVA
+### Repeated-Measures ANOVA
 
 **F(3,51) = 2.9044, p = 0.0436**
 
-### Friedman test
+### Friedman Test
 
 **χ² = 17.6667, p = 0.000515**
 
@@ -263,13 +266,13 @@ The alpha pattern was not simply monotonic with workload.
 
 ### Alpha: 2-back vs 4-back
 
-After Bonferroni correction:
+After Bonferroni correction across six pairwise comparisons:
 
 | Statistic | Value |
 |---|---:|
 | Wilcoxon W | 18 |
-| Raw p | 0.001930 |
-| Bonferroni-adjusted p | 0.011581 |
+| Raw p-value | 0.001930 |
+| Bonferroni-adjusted p-value | 0.011581 |
 | Rank-biserial correlation | 0.7895 |
 | Mean paired difference | +0.1486 |
 | Median paired difference | +0.1200 |
@@ -285,11 +288,11 @@ After Bonferroni correction:
 | 3-back | +0.0188 |
 | 4-back | +0.0513 |
 
-### Repeated-measures ANOVA
+### Repeated-Measures ANOVA
 
 **F(3,51) = 0.6252, p = 0.6020**
 
-### Friedman test
+### Friedman Test
 
 **χ² = 8.6667, p = 0.0341**
 
@@ -303,7 +306,7 @@ The beta effect was not robust after correction for multiple comparisons.
 
 The 2-back versus 4-back alpha comparison was evaluated across the 19 EEG channels using FDR correction.
 
-### Electrodes surviving FDR correction
+### Electrodes Surviving FDR Correction
 
 - F3
 - O2
@@ -325,13 +328,7 @@ The scalp topography is an electrode-level visualization and should not be inter
 
 The alpha response was calculated as:
 
-\[
-\text{Alpha response}
-=
-\text{4-back alpha log-ratio}
--
-\text{2-back alpha log-ratio}
-\]
+**Alpha response = 4-back alpha log-ratio − 2-back alpha log-ratio**
 
 - **16/18 participants** showed a positive response
 - **2/18 participants** showed a negative response
@@ -342,38 +339,28 @@ The magnitude of the response varied considerably between participants.
 
 The alpha 2-back versus 4-back result remained statistically significant in **18/18 leave-one-out analyses**.
 
-The p-value range was approximately:
-
-**0.000046–0.003845**
+The p-value range was approximately **0.000046–0.003845**.
 
 ---
 
 # EEG–Behavior Relationship
 
-An exploratory participant-level analysis compared:
+An exploratory participant-level analysis compared two quantities.
 
-### Alpha response
+### Alpha Response
 
-\[
-\text{4-back alpha log-ratio}
--
-\text{2-back alpha log-ratio}
-\]
+**Alpha response = 4-back alpha log-ratio − 2-back alpha log-ratio**
 
-### Behavioral response
+### Behavioral Response
 
-\[
-\text{4-back accuracy}
--
-\text{2-back accuracy}
-\]
+**Behavioral response = 4-back accuracy − 2-back accuracy**
 
-### Spearman correlation
+### Spearman Correlation
 
 | Statistic | Value |
 |---|---:|
-| ρ | −0.330 |
-| p | 0.181 |
+| Spearman ρ | −0.330 |
+| p-value | 0.181 |
 | n | 18 |
 
 The association was not statistically significant.
@@ -505,6 +492,7 @@ Overall, the project demonstrates a complete workflow from EEG preprocessing and
 
 Booth, L., & Barras, M. *Cognitive Workload 5-level n-back*. OpenNeuro, ds007169.
 
-**Dataset:** https://openneuro.org/datasets/ds007169
+**Dataset source:**  
+https://openneuro.org/datasets/ds007169
 
 Please cite the original dataset and follow the dataset's licensing and attribution requirements when using the data.
